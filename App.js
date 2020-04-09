@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-
 import ContactItem from './components/ContactItem';
 import Input from './components/InputContact';
+import Card from './components/Card';
+import Variables from './Variables/Variables';
 
 const styles = StyleSheet.create({
   telaPrincipalView: {
-    padding: 80
+    padding: Variables.large
+  },
+  card: {
+    margin: Variables.large
   }
 });
 
@@ -45,12 +49,14 @@ export default function App() {
         data={contatos}
         renderItem={
           contato => (
-            <ContactItem
-              chave={contato.item.key}
-              nome={contato.item.nome}
-              celular={contato.item.celular}
-              onDelete={removerContato}
-            />
+            <Card styles={styles.contacItem}>
+              <ContactItem
+                chave={contato.item.key}
+                nome={contato.item.nome}
+                celular={contato.item.celular}
+                onDelete={removerContato}
+              />
+            </Card>
           )
         }
       />

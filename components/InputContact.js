@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native'
+import Variables from '../Variables/Variables.js'
 
 const InputContact = (props) => {
   const [nome, setNome] = useState('');
@@ -49,20 +50,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8
+    marginBottom: Variables.small
   },
   nomeInputText: {
     width: '80%',
-    borderBottomColor: '#32383c',
-    borderBottomWidth: 1,
-    padding: 2,
+    borderBottomColor: Variables.moon900,
+    borderBottomWidth: Variables.verySmall,
+    padding: Variables.small,
     marginBottom: 20
   },
   telefoneInputText: {
     width: '80%',
-    borderBottomColor: '#32383c',
-    borderBottomWidth: 1,
-    padding: 2
+    borderBottomColor: Variables.moon900,
+    borderBottomWidth: Variables.verySmall,
+    padding: Variables.small,
+    marginBottom: Variables.medium
   }
 });
 

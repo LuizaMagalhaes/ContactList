@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Variables from '../Variables/Variables'
 
 const ContactItem = (props) => {
   return (
@@ -7,7 +8,7 @@ const ContactItem = (props) => {
       <View style={styles.itemNaLista}>
         <Text>#{props.chave}</Text>
         <Text>Nome: {props.nome}</Text>
-        <Text>Numero: {props.celular}</Text>
+        <Text>Telefone: {props.celular}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -15,12 +16,12 @@ const ContactItem = (props) => {
 
 const styles = StyleSheet.create({
   itemNaLista: {
-    padding: 12,
-    backgroundColor: '#B8FCAE',
-    borderColor: '#56b53f',
-    borderWidth: 1,
-    marginBottom: 8,
-    borderRadius: 8
+    padding: Variables.small,
+    backgroundColor: Variables.moon100,
+    borderColor: Variables.moon400,
+    borderWidth: Variables.verySmall,
+    marginBottom: Variables.medium,
+    borderRadius: Variables.medium,
   }
 });
 
