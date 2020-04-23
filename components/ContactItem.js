@@ -4,11 +4,11 @@ import Variables from '../Variables/Variables'
 
 const ContactItem = (props) => {
   return (
-    <TouchableOpacity onLongPress={props.onDelete.bind(this, props.chave)}>
+    <TouchableOpacity onPress={props.onPress.bind(this, props.contact)} onLongPress={props.onDelete.bind(this, props.contact.key)}>
       <View style={styles.itemNaLista}>
-        <Text>#{props.chave}</Text>
-        <Text>Nome: {props.nome}</Text>
-        <Text>Telefone: {props.celular}</Text>
+        <Text>#{props.contact.key}</Text>
+        <Text>Nome: {props.contact.nome}</Text>
+        <Text>Telefone: {props.contact.celular}</Text>
       </View>
     </TouchableOpacity>
   );

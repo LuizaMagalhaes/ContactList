@@ -16,7 +16,7 @@ const InputContact = (props) => {
 
   return (
     <View>
-      <View style={styles.contatoView}>
+      <View style={styles.contactView}>
         <TextInput
           placeholder="Nome"
           style={styles.nomeInputText}
@@ -24,7 +24,7 @@ const InputContact = (props) => {
           value={nome}
         />
       </View>
-      <View style={styles.contatoView}>
+      <View style={styles.contactView}>
         <TextInput
           placeholder="Telefone"
           style={styles.telefoneInputText}
@@ -32,12 +32,14 @@ const InputContact = (props) => {
           value={celular}
         />
         <Button
-          title="+"
+          title={props.isEditing ? "salvar" : '+'}
           onPress={() => {
-            props.onAdicionarContato(nome, celular)
+            props.onAddContact(nome, celular)
 
-            setNome('');
-            setCelular('');
+            if (!props.isEditing) {
+              setNome('');
+              setCelular('');
+            }
           }}
         />
       </View>
@@ -46,7 +48,7 @@ const InputContact = (props) => {
 }
 
 const styles = StyleSheet.create({
-  contatoView: {
+  contactView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

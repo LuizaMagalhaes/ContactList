@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View, Alert, TouchableOpacity, Text } from 'react-native';
 import ContactItem from './components/ContactItem';
-import Input from './components/InputContact';
 import Card from './components/Card';
 import Variables from './Variables/Variables';
+import InputContact from './components/InputContact';
 
 const styles = StyleSheet.create({
   telaPrincipalView: {
@@ -15,24 +15,44 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  const [contatos, setContatos] = useState('');
-  const [contadorContatos, setContadorcontatos] = useState(10);
+  const [contacts, setContacts] = useState('');
+  const [contadorContacts, setContadorcontacts] = useState(10);
+  const [visualizedContact, setVisualizedContact] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const removerContato = (keyToRemove) => {
-    setContatos(contatos => {
-      return contatos.filter((contato) => {
-        return contato.key !== keyToRemove
-      })
-    });
+  const removeContact = (keyToRemove) => {
+    Alert.alert(
+      'Deseja remover o contato ' + keyToRemove + '?',
+      '',
+      [
+        {
+          text: 'Não'
+        },
+        {
+          text: 'Sim',
+          onPress: () => {
+            setContacts(contacts => {
+              return contacts.filter((contact) => {
+                return contact.key !== keyToRemove
+              })
+            });
+          }
+        }
+      ]
+    )
   };
 
-  const adicionarContato = (nome, celular) => {
-    setContatos((contatos) => {
-      setContadorcontatos(contadorContatos + 2);
+  const viewContact = (contact) => {
+    setVisualizedContact(contact);
+  };
+
+  const addContact = (nome, celular) => {
+    setContacts((contacts) => {
+      setContadorcontacts(contadorContacts + 2);
       return [
-        ...contatos,
+        ...contacts,
         {
-          key: contadorContatos.toString(),
+          key: contadorContacts.toString(),
           nome: nome,
           celular: celular
         }
@@ -40,26 +60,74 @@ export default function App() {
     });
   }
 
+
+  const editContact = (nome, celular) => {
+    var currentContacts = contacts;
+    var newItem = false;
+
+    currentContacts.forEach((item) => {
+      if (item.key == visualizedContact.key) {
+        item.nome = nome
+        item.celular = celular
+
+        newItem = item;
+      }
+    })
+    setIsEditing(false);
+    setVisualizedContact(null);
+  }
+
   return (
-    <View style={styles.telaPrincipalView}>
-      <View>
-        <Input onAdicionarContato={adicionarContato} />
-      </View>
-      <FlatList
-        data={contatos}
-        renderItem={
-          contato => (
-            <Card styles={styles.contacItem}>
-              <ContactItem
-                chave={contato.item.key}
-                nome={contato.item.nome}
-                celular={contato.item.celular}
-                onDelete={removerContato}
-              />
-            </Card>
-          )
-        }
-      />
+    <View>
+      {visualizedContact ? (
+        <View style={styles.telaPrincipalView}>
+          <TouchableOpacity onPress={() => {
+            setIsEditing(false)
+            setVisualizedContact(null)
+          }}>
+            <View>
+              <Text>Voltar para a lista de contatos</Text>
+            </View>
+          </TouchableOpacity>
+          {isEditing ? (
+            <View>
+              <InputContact onAddContact={editContact} isEditing={true} />
+            </View>
+          ) : (<View></View>)}
+          <Card styles={styles.contactItem}>
+            <ContactItem
+              contact={visualizedContact}
+              onPress={viewContact}
+              onDelete={removeContact}
+            />
+          </Card>
+          <TouchableOpacity onPress={() => { setIsEditing(true) }}>
+            <View>
+              <Text>Editar</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ) : (
+          <View style={styles.telaPrincipalView}>
+            <View>
+              <InputContact onAddContact={addContact} isEditing={false} />
+            </View>
+            <FlatList
+              data={contacts}
+              renderItem={
+                contact => (
+                  <Card styles={styles.contactItem}>
+                    <ContactItem
+                      contact={contact.item}
+                      onPress={viewContact}
+                      onDelete={removeContact}
+                    />
+                  </Card>
+                )
+              }
+            />
+          </View>
+        )}
     </View>
   );
 }
