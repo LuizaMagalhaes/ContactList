@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Alert, Platform, ScrollView } from 'react-native';
+import { FlatList, StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert, Platform, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-
 import ContactItem from '../components/ContactItem';
 import InputContact from '../components/InputContact';
 import Card from '../components/Card';
 import HeaderBtn from '../components/HeaderBtn'
-
 import Variables from '../Variables/Variables';
 
 const styles = StyleSheet.create({
@@ -64,8 +62,6 @@ const ContactList = (props) => {
       ];
     });
   }
-
-
 
   const editContact = (nome, celular) => {
     var currentContacts = contacts;

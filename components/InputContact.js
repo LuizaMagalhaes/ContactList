@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native'
 import Variables from '../Variables/Variables.js'
+import { useDispatch } from 'react-redux';
+import * as ContactActions from '../Store/ContactAction';
+import TakePhoto from './TakePhoto';
 
 const InputContact = (props) => {
   const [nome, setNome] = useState('');
@@ -13,6 +16,14 @@ const InputContact = (props) => {
   const capturarCelular = (celular) => {
     setCelular(celular)
   };
+
+  const [id, setId] = useState(10);
+  const dispatch = useDispatch();
+  const [imagemURI, setImagemURI] = useState();
+
+  const photoTaken = imagemURI => {
+    setImagemURI(imagemURI);
+  }
 
   return (
     <View>
@@ -31,14 +42,18 @@ const InputContact = (props) => {
           onChangeText={capturarCelular}
           value={celular}
         />
+        <TakePhoto onPhotoTaken={photoTaken} />
         <Button
           title={props.isEditing ? "salvar" : '+'}
           onPress={() => {
             props.onAddContact(nome, celular)
 
             if (!props.isEditing) {
+              dispatch(ContatoActions.criarContato(id, nome, fone, imagemURI));
               setNome('');
               setCelular('');
+              setImagemURI(null);
+              setId(id + 1);
             }
           }}
         />
@@ -67,6 +82,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: Variables.verySmall,
     padding: Variables.small,
     marginBottom: Variables.medium
+  },
+  imagem: {
+    width: 200,
+    height: 200,
+    backgroundColor: '#ccc'
   }
 });
 

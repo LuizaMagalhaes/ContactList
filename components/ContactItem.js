@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Variables from '../Variables/Variables'
 
 const ContactItem = (props) => {
   return (
-    <TouchableOpacity onPress={props.onPress.bind(this, props.contact)} onLongPress={props.onDelete.bind(this, props.contact.key)}>
+    <TouchableOpacity onPress={props.onPress.bind(this, props.contact)} onLongPress={props.onDelete.bind(this, props.contact.id)}>
       <View style={styles.itemNaLista}>
-        <Text>#{props.contact.key}</Text>
+        <Text>#{props.contact.id}</Text>
+        <Image style={styles.imagem} source={{ uri: props.imagem }} />
         <Text>Nome: {props.contact.nome}</Text>
         <Text>Telefone: {props.contact.celular}</Text>
       </View>
@@ -21,7 +22,16 @@ const styles = StyleSheet.create({
     borderColor: Variables.moon400,
     borderWidth: Variables.verySmall,
     marginBottom: Variables.medium,
+    marginTop: 10,
     borderRadius: Variables.medium,
+  },
+  imagem: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: '#ccc',
+    borderColor: Cores.primary,
+    borderWidth: 1
   }
 });
 
