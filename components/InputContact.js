@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native'
 import Variables from '../Variables/Variables.js'
+import CatchLocation from './CatchLocation';
 
 const InputContact = (props) => {
   const [nome, setNome] = useState('');
   const [celular, setCelular] = useState('');
   const [imagemURI, setImagemURI] = useState();
+  const [lat, setLat] = useState('');
+  const [lng, setLng] = useState('');
 
   const capturarNome = (nome) => {
     setNome(nome)
@@ -42,11 +45,18 @@ const InputContact = (props) => {
       <View style={styles.contactView}>
         <TiraFoto onPhotoTaken={photoTaken} />
       </View>
+      <CatchLocation
+        handleLocation={(lat, lng) => {
+          setLat(lat);
+          setLng(lng);
+
+        }}
+      />
       <View style={styles.contactView}>
         <Button
           title={'Adicionar'}
           onPress={() => {
-            props.onAddContact(nome, celular, imagemURI)
+            props.onAddContact(nome, celular, imagemURI, lat, lng)
           }}
         />
       </View>

@@ -1,22 +1,61 @@
-export const ADD_CONTACT = 'ADD_CONTACT';
-export const LIST_CONTACTS = 'LIST_CONTACTS';
+import * as FileSystem from 'expo-file-system';
+import { inserirContato, buscarContatos } from '../helpers/db';
 
-export const listContacts = () => {
+export const ADD_CONTATO = 'ADD_CONTATO';
+export const LISTA_CONTATOS = 'LISTA_CONTATOS';
+
+export const listarContatos = () => {
   return async dispatch => {
     try {
-      dispatch({ type: LIST_CONTACTS, contatos: resultadoDB.rows._array });
-
-    }
-    catch (err) {
+      const resultadoDB = await buscarContatos();
+      dispatch({ type: LISTA_CONTATOS, contatos: resultadoDB.rows._array });
+    } catch (err) {
       console.log(err);
       throw err;
     }
   }
-}
+};
 
+export const addContato = (id, nome, celular, foto, lat, lng, createdAt) => {
+  return async dispatch => {
+    var novoPath = '';
+    if (typeof foto !== 'undefined') {
+      const nomeArquivo = foto.split("/").pop();
+      novoPath = FileSystem.documentDirectory + nomeArquivo;
 
+      try {
+        await FileSystem.moveAsync({
+          from: foto,
+          to: novoPath
+        })
 
-export const createContact = (id, nome, fone, imagem) => {
-  console.log("passou aqui");
-  return { type: ADD_CONTACT, contact: { id: id, nome: nome, fone: fone, imagem: imagem } }
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+    }
+
+    const resultadoDB = await inserirContato(
+      id,
+      nome,
+      celular,
+      foto,
+      lat,
+      lng,
+      createdAt
+    );
+
+    dispatch({
+      type: ADD_CONTATO,
+      dadosContato: {
+        id: id,
+        nome: nome,
+        celular: celular,
+        foto: novoPath,
+        lat: lat,
+        lng: lng,
+        createdAt: createdAt
+      }
+    })
+  }
 }

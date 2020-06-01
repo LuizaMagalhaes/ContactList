@@ -1,19 +1,25 @@
-import { ADD_CONTACT } from './ContactAction';
-import Contact from '../Models/Contact';
+import Contact from '../model/Contact';
+import { ADD_CONTATO, LISTA_CONTATOS } from './ContactAction'
 
-const inicialState = {
-  contacts: []
+const estadoInicial = {
+  contatos: []
 };
 
-export default (state = inicialState, action) => {
+export default (estado = estadoInicial, action) => {
+  var dadosContato = action.dadosContato;
+
   switch (action.type) {
-    case ADD_CONTACT:
-      const contact = new Contact(action.contact.id, action.contact.nome, action.contact.fone, action.contact.imagem);
-      console.log("@contact reducer", JSON.stringify(contact))
+    case LISTA_CONTATOS:
       return {
-        contacts: state.contacts.concat(contact)
+        contatos: action.contatos.map(l => new Contato(l.id.toString(), l.nome, l.celular, l.foto, l.lat, l.lng, l.createdAt))
+      }
+    case ADD_CONTATO:
+      const c = new Contato(dadosContato.id, dadosContato.nome, dadosContato.celular, dadosContato.foto, dadosContato.lat.dadosContato.lng, dadosContato.createdAt);
+
+      return {
+        contatos: estado.contatos.concat(c)
       };
     default:
-      return state;
+      return estado;
   }
 }
