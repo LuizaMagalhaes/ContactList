@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Variables from '../Variables/Variables'
 
 const ContactItem = (props) => {
@@ -7,7 +7,6 @@ const ContactItem = (props) => {
     <TouchableOpacity onPress={props.onPress.bind(this, props.contact)} onLongPress={props.onDelete.bind(this, props.contact.id)}>
       <View style={styles.itemNaLista}>
         <Text>#{props.contact.id}</Text>
-        <Image style={styles.imagem} source={{ uri: props.imagem }} />
         <Text>Nome: {props.contact.nome}</Text>
         <Text>Telefone: {props.contact.celular}</Text>
       </View>

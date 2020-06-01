@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native'
 import Variables from '../Variables/Variables.js'
-import { useDispatch } from 'react-redux';
-import * as ContactActions from '../Store/ContactAction';
-import TakePhoto from './TakePhoto';
 
 const InputContact = (props) => {
   const [nome, setNome] = useState('');
   const [celular, setCelular] = useState('');
+  const [imagemURI, setImagemURI] = useState();
 
   const capturarNome = (nome) => {
     setNome(nome)
@@ -17,8 +15,6 @@ const InputContact = (props) => {
     setCelular(celular)
   };
 
-  const [id, setId] = useState(10);
-  const dispatch = useDispatch();
   const [imagemURI, setImagemURI] = useState();
 
   const photoTaken = imagemURI => {
@@ -42,19 +38,15 @@ const InputContact = (props) => {
           onChangeText={capturarCelular}
           value={celular}
         />
-        <TakePhoto onPhotoTaken={photoTaken} />
+      </View>
+      <View style={styles.contactView}>
+        <TiraFoto onPhotoTaken={photoTaken} />
+      </View>
+      <View style={styles.contactView}>
         <Button
-          title={props.isEditing ? "salvar" : '+'}
+          title={'Adicionar'}
           onPress={() => {
-            props.onAddContact(nome, celular)
-
-            if (!props.isEditing) {
-              dispatch(ContatoActions.criarContato(id, nome, fone, imagemURI));
-              setNome('');
-              setCelular('');
-              setImagemURI(null);
-              setId(id + 1);
-            }
+            props.onAddContact(nome, celular, imagemURI)
           }}
         />
       </View>

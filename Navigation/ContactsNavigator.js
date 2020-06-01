@@ -5,7 +5,7 @@ import Variables from '../Variables/Variables';
 import ContactList from '../Screens/ContactList'
 import NewContact from '../Screens/NewContact'
 
-const Navigator = createStackNavigator({
+const ContactsNavigator = createStackNavigator({
   ContactList: ContactList,
   NewContact: NewContact
 }, {
@@ -17,4 +17,4 @@ const Navigator = createStackNavigator({
     }
   });
 
-export default createAppContainer(Navigator);
+export default createAppContainer(ContactsNavigator);

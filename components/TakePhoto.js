@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { View, Button, Image, Text, StyleSheet } from 'react-native';
 import Variables from '../Variables/Variables';
-import * as ImagePicker from 'expo-image-picker';
+import ImagePicker from 'react-native-image-picker';
 
 const TakePhoto = props => {
   const [imagemURI, setImagemURI] = useState();
 
-  const takePhoto = async () => {
+  async function takePhoto() {
+
     const photo = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
-      aspect: [16, 9],
+      aspect: [1, 1],
       quality: 1
     });
+
     setImagemURI(photo.uri);
+
     props.onPhotoTaken(photo.uri);
   }
 
