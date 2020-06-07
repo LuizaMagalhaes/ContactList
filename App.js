@@ -5,6 +5,10 @@ import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
 import contatoscRducer from './Store/ContactReducer';
 import { init } from './helpers/db';
+import { decode, encode } from 'base-64'
+
+if (!global.btoa) { global.btoa = encode }
+if (!global.atob) { global.atob = decode }
 
 init().then(() => {
   console.log("Sucesso. Base criada!");

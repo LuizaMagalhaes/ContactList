@@ -6,6 +6,15 @@ import InputContact from '../components/InputContact';
 import Card from '../components/Card';
 import HeaderBtn from '../components/HeaderBtn'
 import Variables from '../Variables/Variables';
+import * as firebase from 'firebase';
+import ENV from '../env';
+import 'firebase/firestore';
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(ENV.firebaseConfig);
+}
+
+const db = firebase.firestore()
 
 const styles = StyleSheet.create({
   MainScreenView: {
@@ -20,8 +29,19 @@ const ContactList = (props) => {
   const [visualizeContact, setVisualizeContact] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  const [contacts, setContacts] = useState('');
+  const [contacts, setContacts] = useState([]);
   const [contactsCount, setContactsCount] = useState(10);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    db.collection('contatos').onSnapshot((snapshot) => {
+      let aux = [];
+      snapshot.forEach(doc => {
+        aux.push(doc.data());
+      });
+      setContatos(aux);
+    });
+  }, [dispatch]);
 
   const removeContact = (keyToRemove) => {
     Alert.alert(
